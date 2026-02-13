@@ -1,6 +1,7 @@
-# Portfolio Website
+# Portfolio Website (Single Page)
 
 A personal portfolio website for **Ariful Haque Rohan**.
+This version is a **single HTML file** containing all styles and content, making it extremely easy to deploy.
 
 ## 🚀 Deployment Instructions
 
