@@ -38,7 +38,7 @@
             box-sizing: border-box;
             scroll-behavior: smooth;
             cursor: none;
-            /* Hide default cursor for custom one */
+            /* Hide default cursor */
         }
 
         body {
@@ -48,6 +48,75 @@
             line-height: 1.8;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Scroll Progress Bar --- */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            width: 0%;
+            z-index: 99999;
+            box-shadow: 0 0 10px var(--primary-accent);
+        }
+
+        /* --- Navigation Dock --- */
+        .nav-dock {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .nav-item {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: 0.3s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .nav-tooltip {
+            position: absolute;
+            top: -40px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover .nav-tooltip {
+            opacity: 1;
+            top: -50px;
         }
 
         /* --- Custom Cursor --- */
@@ -79,7 +148,6 @@
             opacity: 1;
         }
 
-        /* Hover state for links/buttons */
         body.hovering .cursor-outline {
             width: 60px;
             height: 60px;
@@ -87,7 +155,7 @@
             border-color: var(--secondary-accent);
         }
 
-        /* --- 2. Interactive Background --- */
+        /* --- Canvas Background --- */
         #canvas-bg {
             position: fixed;
             top: 0;
@@ -97,7 +165,7 @@
             z-index: -1;
         }
 
-        /* --- 3. Layout Utilities --- */
+        /* --- Layout --- */
         .container {
             max-width: var(--container-width);
             margin: 0 auto;
@@ -109,7 +177,6 @@
         section {
             padding: 8rem 0;
             opacity: 0;
-            /* Hidden initially for JS reveal */
             transform: translateY(40px);
             transition: opacity 1s ease-out, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
@@ -125,6 +192,7 @@
             transition: var(--transition);
         }
 
+        /* --- Buttons --- */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -140,6 +208,12 @@
             color: #fff;
             text-transform: uppercase;
             font-size: 0.9rem;
+        }
+
+        /* Magnetic Effect Class (Added via JS) */
+        .magnetic {
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .btn::before {
@@ -159,11 +233,10 @@
 
         .btn:hover {
             border-color: var(--primary-accent);
-            transform: translateY(-5px);
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
         }
 
-        /* --- 4. Typography --- */
+        /* --- Typography --- */
         h1,
         h2,
         h3 {
@@ -225,16 +298,6 @@
             margin-bottom: 3rem;
         }
 
-        /* --- 5. Hero Section & Typing --- */
-        header {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            opacity: 1 !important;
-            transform: none !important;
-        }
-
         .hero-pre {
             font-family: monospace;
             color: var(--primary-accent);
@@ -252,6 +315,7 @@
             background: var(--primary-accent);
         }
 
+        /* --- Typing --- */
         .typing-container {
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-family: var(--font-heading);
@@ -284,7 +348,7 @@
             }
         }
 
-        /* --- 6. 3D Tilt Cards --- */
+        /* --- Cards & Grid --- */
         .tilt-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -335,7 +399,7 @@
             transform: translateY(-2px);
         }
 
-        /* --- 7. Timeline --- */
+        /* --- Timeline --- */
         .timeline {
             position: relative;
             padding-left: 2rem;
@@ -356,7 +420,6 @@
         .timeline-dot {
             position: absolute;
             left: -6px;
-            /* - (width/2 + border-width) = -(8/2 + 2) = -6 */
             top: 5px;
             width: 10px;
             height: 10px;
@@ -408,7 +471,7 @@
             color: var(--primary-accent);
         }
 
-        /* --- 8. Project Cards --- */
+        /* --- Project Cards --- */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -428,7 +491,6 @@
             overflow: hidden;
         }
 
-        /* Shine Effect */
         .project-card::after {
             content: '';
             position: absolute;
@@ -495,7 +557,6 @@
             font-family: monospace;
         }
 
-        /* --- 9. Footer --- */
         footer {
             text-align: center;
             padding: 4rem 0;
@@ -505,7 +566,6 @@
             margin-top: 5rem;
         }
 
-        /* --- 10. Mobile Responsiveness --- */
         @media (max-width: 768px) {
             h1 {
                 font-size: 3rem;
@@ -513,10 +573,6 @@
 
             .container {
                 padding: 0 1.5rem;
-            }
-
-            section {
-                padding: 5rem 0;
             }
 
             .projects-grid {
@@ -527,9 +583,13 @@
                 display: none;
             }
 
-            /* Disable custom cursor on touch */
             * {
                 cursor: auto;
+            }
+
+            .nav-dock {
+                bottom: 1rem;
+                padding: 0.6rem 1rem;
             }
         }
     </style>
@@ -537,18 +597,45 @@
 
 <body>
 
-    <!-- Custom Cursor using JS to follow mouse -->
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Custom Cursor -->
     <div class="cursor-dot" data-cursor-dot></div>
     <div class="cursor-outline" data-cursor-outline></div>
 
     <!-- Canvas Background -->
     <canvas id="canvas-bg"></canvas>
 
+    <!-- Navigation Dock -->
+    <nav class="nav-dock">
+        <a href="#home" class="nav-item active">
+            <span>🏠</span>
+            <div class="nav-tooltip">Home</div>
+        </a>
+        <a href="#experience" class="nav-item">
+            <span>💼</span>
+            <div class="nav-tooltip">Experience</div>
+        </a>
+        <a href="#projects" class="nav-item">
+            <span>🚀</span>
+            <div class="nav-tooltip">Projects</div>
+        </a>
+        <a href="#skills" class="nav-item">
+            <span>🛠️</span>
+            <div class="nav-tooltip">Skills</div>
+        </a>
+        <a href="#education" class="nav-item">
+            <span>🎓</span>
+            <div class="nav-tooltip">Education</div>
+        </a>
+    </nav>
+
     <!-- Main Content -->
     <main class="container">
 
         <!-- Hero Section -->
-        <header>
+        <header id="home">
             <div class="hero-content">
                 <div class="hero-pre">Hi, my name is</div>
                 <h1>Ariful Haque <br><span class="gradient-text">Rohan.</span></h1>
@@ -562,8 +649,9 @@
                     I transform complex problems into elegant, efficient code.
                 </p>
                 <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                    <a href="mailto:arifulhaquerohan@gmail.com" class="btn">Contact Me</a>
-                    <a href="https://github.com/arifulhaquerohan" target="_blank" class="btn">GitHub Profile</a>
+                    <a href="mailto:arifulhaquerohan@gmail.com" class="btn magnetic">Contact Me</a>
+                    <a href="https://github.com/arifulhaquerohan" target="_blank" class="btn magnetic">GitHub
+                        Profile</a>
                 </div>
             </div>
         </header>
@@ -597,7 +685,7 @@
 
                 <div class="project-card" onmousemove="handleCardHover(event)">
                     <div class="folder-icon">
-                        <span>�</span>
+                        <span>📁</span>
                         <a href="#" class="external-link">↗</a>
                     </div>
                     <a href="#" class="project-title">Interior Management System</a>
@@ -706,36 +794,66 @@
         window.addEventListener("mousemove", function (e) {
             const posX = e.clientX;
             const posY = e.clientY;
-
-            // Dot follows instantly
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
-
-            // Outline follows with slight delay (animation)
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
         });
 
-        // Add hover effect to interactive elements
         document.querySelectorAll('a, button, .project-card, .tilt-card').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
+        // --- 2. Magnetic Buttons ---
+        const magneticBtns = document.querySelectorAll('.magnetic');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0px, 0px)';
+            });
+        });
 
-        // --- 2. Typewriter Effect ---
+        // --- 3. Scroll Progress Bar & Nav Active State ---
+        window.onscroll = function () {
+            // Progress Bar
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // Active Nav State
+            let sections = document.querySelectorAll('section, header');
+            let navLinks = document.querySelectorAll('.nav-item');
+
+            sections.forEach(sec => {
+                let top = window.scrollY;
+                let offset = sec.offsetTop - 150;
+                let height = sec.offsetHeight;
+                let id = sec.getAttribute('id');
+
+                if (top >= offset && top < offset + height) {
+                    navLinks.forEach(links => {
+                        links.classList.remove('active');
+                        if (links.getAttribute('href').includes(id)) {
+                            links.classList.add('active');
+                        }
+                    });
+                }
+            });
+        };
+
+        // --- 4. Typewriter Effect ---
         const textElement = document.querySelector('.text-cycle');
         const phrases = ["exceptional web experiences.", "scalable backend systems.", "fast frontend interfaces.", "robust APIs."];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 100;
+        let phraseIndex = 0, charIndex = 0, isDeleting = false, typeSpeed = 100;
 
         function type() {
             const currentPhrase = phrases[phraseIndex];
-
             if (isDeleting) {
                 textElement.textContent = currentPhrase.substring(0, charIndex - 1);
                 charIndex--;
@@ -747,21 +865,15 @@
             }
 
             if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                typeSpeed = 2000; // Pause at end
+                isDeleting = true; typeSpeed = 2000;
             } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500; // Pause before new word
+                isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 500;
             }
-
             setTimeout(type, typeSpeed);
         }
         document.addEventListener('DOMContentLoaded', type);
 
-
-        // --- 3. Scroll Reveal ---
-        const observerOptions = { threshold: 0.15 };
+        // --- 5. Scroll Reveal ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -769,29 +881,24 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
-
+        }, { threshold: 0.15 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-
-        // --- 4. Card Hover Shine Effect ---
+        // --- 6. Card Hover Shine ---
         function handleCardHover(e) {
             const card = e.currentTarget;
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-
             card.style.setProperty("--mouse-x", `${x}px`);
             card.style.setProperty("--mouse-y", `${y}px`);
         }
 
-
-        // --- 5. Particle Background (Canvas) ---
+        // --- 7. Particle Background ---
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let particlesArray;
 
-        // Set canvas size
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
@@ -799,60 +906,44 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.1; // Random size
+                this.size = Math.random() * 2 + 0.1;
                 this.speedX = Math.random() * 0.5 - 0.25;
                 this.speedY = Math.random() * 0.5 - 0.25;
-                this.color = Math.random() > 0.5 ? 'rgba(139, 92, 246, 0.3)' : 'rgba(14, 165, 233, 0.3)'; // Violet or Blue
+                this.color = Math.random() > 0.5 ? 'rgba(139, 92, 246, 0.3)' : 'rgba(14, 165, 233, 0.3)';
             }
-
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                // Bounce off edges
+                this.x += this.speedX; this.y += this.speedY;
                 if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
                 if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
             }
-
             draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillStyle = this.color; ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
 
         function initParticles() {
             particlesArray = [];
             let numberOfParticles = (canvas.width * canvas.height) / 15000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                particlesArray.push(new Particle());
-            }
+            for (let i = 0; i < numberOfParticles; i++) particlesArray.push(new Particle());
         }
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
+                particlesArray[i].update(); particlesArray[i].draw();
             }
-
             connectParticles();
             requestAnimationFrame(animateParticles);
         }
 
         function connectParticles() {
-            let opacityValue = 1;
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
-                        ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) ** 2) + ((particlesArray[a].y - particlesArray[b].y) ** 2);
                     if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                        opacityValue = 1 - (distance / 20000);
-                        ctx.strokeStyle = 'rgba(255, 255, 255,' + opacityValue * 0.05 + ')';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
+                        ctx.strokeStyle = 'rgba(255, 255, 255,' + (1 - (distance / 20000)) * 0.05 + ')';
+                        ctx.lineWidth = 1; ctx.beginPath();
                         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
                         ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
                         ctx.stroke();
@@ -861,14 +952,8 @@
             }
         }
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initParticles();
-        });
-
-        initParticles();
-        animateParticles();
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initParticles(); });
+        initParticles(); animateParticles();
 
     </script>
 </body>
